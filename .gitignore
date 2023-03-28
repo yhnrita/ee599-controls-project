@@ -1,2 +1,5 @@
 sim_p.avi
 quad_3d_dyn/quad_3d_dyn.asv
+brt/problem_3/BRT_computation.asv
+brt/problem_3/get_nominal_controller.asv
+brt/problem_3/mpc.asv

@@ -20,11 +20,50 @@ N = [51; 51; 51];
 g = createGrid(grid_min, grid_max, N);
 
 %% TODO
-% Define the failure set: data0
-obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1+width1, obsY1+height1, inf]); 
-obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2+width2, obsY2+height2, inf]);
+% % Define the failure set: data0
+% obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1+width1, obsY1+height1, inf]); 
+% obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2+width2, obsY2+height2, inf]);
+% data0 = shapeUnion(obs1, obs2);
+% %data0 = obs1;
+
+%% TODO
+%% Define the failure set: data0
+% Set the height constraint, obstacle radii, and safe step clearance epsilon
+c = 10;
+r1 = 2;
+r2 = 2;
+epsilon = 0.5;
+
+% Check if the height of obstacle 1 is within the height constraint
+if height1 <= c
+    % Create an outer sphere for obstacle 1 with a radius increased by epsilon
+    obs1_outer = shapeSphere(g, [obsX1, obsY1, 0], r1+epsilon);
+    % Create an inner sphere for obstacle 1 with a radius decreased by epsilon
+    obs1_inner = shapeSphere(g, [obsX1, obsY1, 0], r1-epsilon);
+    % Calculate the difference between the outer and inner spheres for obstacle 1
+    obs1 = shapeDifference(obs1_outer, obs1_inner);
+else
+    % If the height constraint is not met, create a sphere for obstacle 1 with radius r1
+    obs1 = shapeSphere(g, [obsX1, obsY1, 0], r1);
+end
+
+% Check if the height of obstacle 2 is within the height constraint
+if height2 <= c
+    % Create an outer sphere for obstacle 2 with a radius increased by epsilon
+    obs2_outer = shapeSphere(g, [obsX2, obsY2, 0], r2+epsilon);
+    % Create an inner sphere for obstacle 2 with a radius decreased by epsilon
+    obs2_inner = shapeSphere(g, [obsX2, obsY2, 0], r2-epsilon);
+    % Calculate the difference between the outer and inner spheres for obstacle 2
+    obs2 = shapeDifference(obs2_outer, obs2_inner);
+else
+    % If the height constraint is not met, create a sphere for obstacle 2 with radius r2
+    obs2 = shapeSphere(g, [obsX2, obsY2, 0], r2);
+end
+
+% Combine the two obstacle representations into a single data set
 data0 = shapeUnion(obs1, obs2);
-%data0 = obs1;
+
+
 
 % time
 t0 = 0;

@@ -1,4 +1,4 @@
-function X = mpc(H, goalX, goalY, dt, wMax, xinit, v)
+function X = myMpc(H, goalX, goalY, dt, wMax, xinit, v)
 
     %% Optimization variables
     % [x(1), x(2), ..., x(101),y(1), y(2), ...y(101), theta(1), theta(2), ...,theta(101),
