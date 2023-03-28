@@ -30,8 +30,8 @@ g = createGrid(grid_min, grid_max, N);
 %% Define the failure set: data0
 % Set the height constraint, obstacle radii, and safe step clearance epsilon
 c = 10;
-r1 = 2;
-r2 = 2;
+r1 = 2; % radius of the obstacle 1
+r2 = 2; % radius of the obstacle 2
 epsilon = 0.5;
 
 % Check if the height of obstacle 1 is within the height constraint

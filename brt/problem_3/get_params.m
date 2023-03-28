@@ -28,7 +28,7 @@ function params = get_params()
     params.obsheight2 = 4.5;
 
     % disturbance params 
-    params.dMax = 0.8;
+    params.dMax = 0;
 
     % bonus: disturbance range
     params.dist_min = 0.1;
