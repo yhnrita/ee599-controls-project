@@ -44,7 +44,7 @@ if height1 <= c
     obs1 = shapeDifference(obs1_outer, obs1_inner);
 else
     % If the height constraint is not met, create a sphere for obstacle 1 with radius r1
-    obs1 = shapeSphere(g, [obsX1, obsY1, 0], r1);
+    obs1 = shapeSphere(g, [obsX1, obsY1, 0], r1+epsilon);
 end
 
 % Check if the height of obstacle 2 is within the height constraint
@@ -57,7 +57,7 @@ if height2 <= c
     obs2 = shapeDifference(obs2_outer, obs2_inner);
 else
     % If the height constraint is not met, create a sphere for obstacle 2 with radius r2
-    obs2 = shapeSphere(g, [obsX2, obsY2, 0], r2);
+    obs2 = shapeSphere(g, [obsX2, obsY2, 0], r2+epsilon);
 end
 
 % Combine the two obstacle representations into a single data set
