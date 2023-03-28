@@ -1,12 +1,16 @@
 function [world, body, ctr, path] = hardware_params()
 %% Casadi path
 % Change to your casadi path
-path.casadi = 'tool_box\casadi-windows-matlabR2016a-v3.5.5';
+path.casadi = 'D:\matlab_lib\casadi-windows-matlabR2016a-v3.5.5';
 
 %% Simulation params
 world.fk = 0.5; % friction
 world.g = 9.81; % gravity constant
 
+world.friction_cone = [1/world.fk, 0 -1;...
+                      -1/world.fk, 0 -1;...
+                      0, 1/world.fk, -1;...
+                      0, -1/world.fk, -1];
 
 %% Controller params
 ctr.phase_num = 4;
@@ -35,6 +39,17 @@ ctr.weight.QX = [10 10 10, 10 10 10, 10 10 10, 10 10 10 ]';
 ctr.weight.QN = [10 10 10, 50 50 50, 10 10 10, 10 10 10 ]';
 ctr.weight.Qc = 1*[0.01 0.01 0.01]';
 ctr.weight.Qf = [0.0001 0.0001 0.001]';
+
+% casadi optimal settings
+ctr.opt_setting.expand =true;
+ctr.opt_setting.ipopt.max_iter=1500;
+ctr.opt_setting.ipopt.print_level=0;
+ctr.opt_setting.ipopt.acceptable_tol=1e-4;
+ctr.opt_setting.ipopt.acceptable_obj_change_tol=1e-6;
+ctr.opt_setting.ipopt.tol=1e-4;
+ctr.opt_setting.ipopt.nlp_scaling_method='gradient-based';
+ctr.opt_setting.ipopt.constr_viol_tol=1e-3;
+ctr.opt_setting.ipopt.fixed_variable_treatment='relax_bounds';
 
 %% Robot params
 
@@ -71,16 +86,12 @@ body.phip_swing_ref = body.hip_pos + body.foot_pos;
 
 body.phip_swing_ref_vec = reshape(body.phip_swing_ref,[],1);
 
-body.friction_cone = [1/world.fk, 0 -1;...
-                      -1/world.fk, 0 -1;...
-                      0, 1/world.fk, -1;...
-                      0, -1/world.fk, -1];
 
 body.foot_convex_hull = [1 0 0 -body.foot_x_range;
                         -1 0 0 -body.foot_x_range;
                         0 1 0 -body.foot_y_range;
                         0 -1 0 -body.foot_y_range;
-                        0 0 1 -min_dump_z;
+                        0 0 1 -ctr.min_dump_z;
                         0 0 -1 -body.foot_z_range];
                 
 
