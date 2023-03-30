@@ -45,42 +45,54 @@
 
 function dx = dynamics(obj, ~, x, u, d)
 % Dynamics of the Dubins Car
-% \dot{x}_1 = Fx/m
-% \dot{x}_2 = Fy/m
-% \dot{x}_3 = T/I
-% Control: u = [Fx; Fy; T];
+%    \dot{x}_1 = Fx/m
+%    \dot{x}_2 = Fy/m
+%    \dot{x}_3 = T/I
+%   Control: u = [Fx; Fy; T];
 
-
+% Check if disturbance argument is provided, if not, set to zero
 if nargin < 5
-d = [0; 0];
+  d = [0; 0];
 end
 
+% Check if the state is in cell format
 if iscell(x)
-dx = cell(length(obj.dims), 1);
-
-for i = 1:length(obj.dims)
-dx{i} = dynamics_cell_helper(obj, x, u, d, obj.dims, obj.dims(i));
-end
+  dx = cell(length(obj.dims), 1);
+  
+  % Loop through each dimension and call the cell helper function
+  for i = 1:length(obj.dims)
+    dx{i} = dynamics_cell_helper(obj, x, u, d, obj.dims, obj.dims(i));
+  end
 else
-dx = zeros(obj.nx, 1);
-
-dx(1) = u(1)/obj.mass + d(1); % \dot{x}_1 = Fx/m + d1
-dx(2) = u(2)/obj.mass + d(2); % \dot{x}_2 = Fy/m + d2
-dx(3) = u(3)/obj.inertia; % \dot{x}_3 = T/I
+  % Initialize the derivative vector
+  dx = zeros(obj.nx, 1);
+  
+  % Calculate the derivative of x_1 using Fx, mass, and disturbance
+  dx(1) = u(1)/obj.mass + d(1); % \dot{x}_1 = Fx/m + d1
+  % Calculate the derivative of x_2 using Fy, mass, and disturbance
+  dx(2) = u(2)/obj.mass + d(2); % \dot{x}_2 = Fy/m + d2
+  % Calculate the derivative of x_3 using torque and inertia
+  dx(3) = u(3)/obj.inertia;     % \dot{x}_3 = T/I
 end
 end
 
 function dx = dynamics_cell_helper(obj, x, u, d, dims, dim)
+% Helper function to calculate the derivative for each dimension
 
+% Switch case for each dimension
 switch dim
-case 1
-dx = u{1}/obj.mass + d{1};
-case 2
-dx = u{2}/obj.mass + d{2};
-case 3
-dx = u{3}/obj.inertia;
-otherwise
-error('Only dimension 1-3 are defined for dynamics of DubinsCar!')
+  case 1
+    % Calculate the derivative of x_1 using Fx, mass, and disturbance
+    dx = u{1}/obj.mass + d{1};
+  case 2
+    % Calculate the derivative of x_2 using Fy, mass, and disturbance
+    dx = u{2}/obj.mass + d{2};
+  case 3
+    % Calculate the derivative of x_3 using torque and inertia
+    dx = u{3}/obj.inertia;
+  otherwise
+    % Throw an error if an invalid dimension is passed
+    error('Only dimension 1-3 are defined for dynamics of DubinsCar!')
 end
 end
 

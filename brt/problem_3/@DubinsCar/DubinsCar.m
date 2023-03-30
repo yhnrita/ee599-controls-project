@@ -81,19 +81,19 @@
 classdef DubinsCar < DynSys
   properties
     % Control input bounds
-    FxRange
-    FyRange
-    TRange
+    FxRange % Range of force in x-axis
+    FyRange % Range of force in y-axis
+    TRange  % Range of torque
     
     % Car properties
-    mass % Mass of the car
+    mass    % Mass of the car
     inertia % Moment of inertia about the z-axis
 
     % Disturbance
-    dMax
+    dMax    % Disturbance range
     
     % Dimensions that are active
-    dims
+    dims    % Dimensions that are active
   end
   
   methods
@@ -122,15 +122,18 @@ classdef DubinsCar < DynSys
       %
       % Output:
       %   obj       - a DubinsCar object
-      
+
+      % Check if the initial state has the right dimension
       if numel(x) ~= obj.nx
         error('Initial state does not have right dimension!');
       end
       
+      % Ensure the initial state is a column vector
       if ~iscolumn(x)
         x = x';
       end
-      
+
+      % Assign default values if arguments are not provided
       if nargin < 2
         FxRange = [-1 1];
       end
@@ -175,7 +178,5 @@ classdef DubinsCar < DynSys
       obj.inertia = inertia;
       obj.dMax = dMax;
       obj.dims = dims;
-end
+    end
 
-end % end methods
-end % end classdef
