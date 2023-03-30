@@ -1,10 +1,94 @@
+% classdef DubinsCar < DynSys
+%   properties
+%     % Angle bounds
+%     wRange
+%     
+%     speed % Constant speed
+%     
+%     % Disturbance
+%     dMax
+%     
+%     % Dimensions that are active
+%     dims
+%   end
+%   
+%   methods
+%     function obj = DubinsCar(x, wRange, speed, dMax, dims)
+%       % obj = DubinsCar(x, wMax, speed, dMax, dims)
+%       %     Dubins Car class
+%       %
+%       % Dynamics:
+%       %    \dot{x}_1 = v * cos(x_3) + d1
+%       %    \dot{x}_2 = v * sin(x_3) + d2
+%       %    \dot{x}_3 = u
+%       %         u \in [-wMax, wMax]
+%       %         d \in [-dMax, dMax]
+%       %
+%       % Inputs:
+%       %   x      - state: [xpos; ypos]
+%       %   thetaMin   - minimum angle
+%       %   thetaMax   - maximum angle
+%       %   v - speed
+%       %
+%       % Output:
+%       %   obj       - a DubinsCar2D object
+%       
+%       if numel(x) ~= obj.nx
+%         error('Initial state does not have right dimension!');
+%       end
+%       
+%       if ~iscolumn(x)
+%         x = x';
+%       end
+%       
+%       if nargin < 2
+%         wRange = [-1 1];
+%       end
+%       
+%       if nargin < 3
+%         speed = 1;
+%       end
+%      
+%       
+%       if nargin < 5
+%         dims = 1:3;
+%       end
+%       
+%       if numel(wRange) <2
+%           wRange = [-wRange; wRange];
+%       end
+%       
+%       
+%       % Basic vehicle properties
+%       obj.pdim = [find(dims == 1) find(dims == 2)]; % Position dimensions
+%       obj.nx = length(dims);
+%       obj.nu = 1;
+%       obj.nd = 2;
+%       
+%       obj.x = x;
+%       obj.xhist = obj.x;
+%       
+%       obj.wRange = wRange;
+%       obj.speed = speed;
+%       obj.dMax = dMax;
+%       obj.dims = dims;
+%     end
+%     
+%   end % end methods
+% end % end classdef
+
+
 classdef DubinsCar < DynSys
   properties
-    % Angle bounds
-    wRange
+    % Control input bounds
+    FxRange
+    FyRange
+    TRange
     
-    speed % Constant speed
-    
+    % Car properties
+    mass % Mass of the car
+    inertia % Moment of inertia about the z-axis
+
     % Disturbance
     dMax
     
@@ -13,25 +97,31 @@ classdef DubinsCar < DynSys
   end
   
   methods
-    function obj = DubinsCar(x, wRange, speed, dMax, dims)
-      % obj = DubinsCar(x, wMax, speed, dMax, dims)
+    function obj = DubinsCar(x, FxRange, FyRange, TRange, mass, inertia, dMax, dims)
+      % obj = DubinsCar(x, FxRange, FyRange, TRange, mass, inertia, dMax, dims)
       %     Dubins Car class
       %
       % Dynamics:
-      %    \dot{x}_1 = v * cos(x_3) + d1
-      %    \dot{x}_2 = v * sin(x_3) + d2
-      %    \dot{x}_3 = u
-      %         u \in [-wMax, wMax]
+      %    \dot{x}_1 = Fx/m
+      %    \dot{x}_2 = Fy/m
+      %    \dot{x}_3 = T/I
+      %         Fx \in [FxMin, FxMax]
+      %         Fy \in [FyMin, FyMax]
+      %         T  \in [TMin,  TMax]
       %         d \in [-dMax, dMax]
       %
       % Inputs:
-      %   x      - state: [xpos; ypos]
-      %   thetaMin   - minimum angle
-      %   thetaMax   - maximum angle
-      %   v - speed
+      %   x      - state: [xpos; ypos; theta]
+      %   FxRange - range of force in x-axis
+      %   FyRange - range of force in y-axis
+      %   TRange  - range of torque
+      %   mass    - mass of the car
+      %   inertia - moment of inertia about the z-axis
+      %   dMax    - disturbance range
+      %   dims    - dimensions that are active
       %
       % Output:
-      %   obj       - a DubinsCar2D object
+      %   obj       - a DubinsCar object
       
       if numel(x) ~= obj.nx
         error('Initial state does not have right dimension!');
@@ -42,37 +132,50 @@ classdef DubinsCar < DynSys
       end
       
       if nargin < 2
-        wRange = [-1 1];
+        FxRange = [-1 1];
       end
       
       if nargin < 3
-        speed = 1;
+        FyRange = [-1 1];
       end
-     
       
+      if nargin < 4
+        TRange = [-1 1];
+      end
+
       if nargin < 5
+        mass = 1;
+      end
+
+      if nargin < 6
+        inertia = 1;
+      end
+
+      if nargin < 7
+        dMax = 0.1;
+      end
+      
+      if nargin < 8
         dims = 1:3;
       end
-      
-      if numel(wRange) <2
-          wRange = [-wRange; wRange];
-      end
-      
       
       % Basic vehicle properties
       obj.pdim = [find(dims == 1) find(dims == 2)]; % Position dimensions
       obj.nx = length(dims);
-      obj.nu = 1;
+      obj.nu = 3;
       obj.nd = 2;
       
       obj.x = x;
       obj.xhist = obj.x;
       
-      obj.wRange = wRange;
-      obj.speed = speed;
+      obj.FxRange = FxRange;
+      obj.FyRange = FyRange;
+      obj.TRange = TRange;
+      obj.mass = mass;
+      obj.inertia = inertia;
       obj.dMax = dMax;
       obj.dims = dims;
-    end
-    
-  end % end methods
+end
+
+end % end methods
 end % end classdef
