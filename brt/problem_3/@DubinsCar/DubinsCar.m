@@ -179,4 +179,5 @@ classdef DubinsCar < DynSys
       obj.dMax = dMax;
       obj.dims = dims;
     end
-
+end % end methods
+end % end classdef
