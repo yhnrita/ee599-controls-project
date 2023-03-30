@@ -14,8 +14,8 @@ height2 = params.obsheight2;
 
 %% TODO
 % Define the grid for the computation: g
-grid_min = [-10; -10; -pi];
-grid_max = [10; 10; pi];
+grid_min = [-10; -10; -20];
+grid_max = [10; 10; 20];
 N = [51; 51; 51];
 g = createGrid(grid_min, grid_max, N);
 
@@ -35,35 +35,38 @@ r2 = 2; % radius of the obstacle 2
 epsilon = 0.5;
 
 % Check if the height of obstacle 1 is within the height constraint
-if height1 <= c
-    % Create an outer sphere for obstacle 1 with a radius increased by epsilon
-    obs1_outer = shapeSphere(g, [obsX1, obsY1, 0], r1+epsilon);
-    % Create an inner sphere for obstacle 1 with a radius decreased by epsilon
-    obs1_inner = shapeSphere(g, [obsX1, obsY1, 0], r1-epsilon);
-    % Calculate the difference between the outer and inner spheres for obstacle 1
-    obs1 = shapeDifference(obs1_outer, obs1_inner);
-else
-    % If the height constraint is not met, create a sphere for obstacle 1 with radius r1
-    obs1 = shapeSphere(g, [obsX1, obsY1, 0], r1+epsilon);
-end
+% if height1 <= c
+%     % Create an outer sphere for obstacle 1 with a radius increased by epsilon
+%     obs1_outer = shapeSphere(g, [obsX1, obsY1, 0], r1+epsilon);
+%     % Create an inner sphere for obstacle 1 with a radius decreased by epsilon
+%     obs1_inner = shapeSphere(g, [obsX1, obsY1, 0], r1-epsilon);
+%     % Calculate the difference between the outer and inner spheres for obstacle 1
+%     obs1 = shapeDifference(obs1_outer, obs1_inner);
+% else
+%     % If the height constraint is not met, create a sphere for obstacle 1 with radius r1
+%     obs1 = shapeSphere(g, [obsX1, obsY1, 0], r1+epsilon);
+% end
+% 
+% % Check if the height of obstacle 2 is within the height constraint
+% if height2 <= c
+%     % Create an outer sphere for obstacle 2 with a radius increased by epsilon
+%     obs2_outer = shapeSphere(g, [obsX2, obsY2, 0], r2+epsilon);
+%     % Create an inner sphere for obstacle 2 with a radius decreased by epsilon
+%     obs2_inner = shapeSphere(g, [obsX2, obsY2, 0], r2-epsilon);
+%     % Calculate the difference between the outer and inner spheres for obstacle 2
+%     obs2 = shapeDifference(obs2_outer, obs2_inner);
+% else
+%     % If the height constraint is not met, create a sphere for obstacle 2 with radius r2
+%     obs2 = shapeSphere(g, [obsX2, obsY2, 0], r2+epsilon);
+% end
+% 
+% % Combine the two obstacle representations into a single data set
+% data0 = shapeUnion(obs1, obs2);
 
-% Check if the height of obstacle 2 is within the height constraint
-if height2 <= c
-    % Create an outer sphere for obstacle 2 with a radius increased by epsilon
-    obs2_outer = shapeSphere(g, [obsX2, obsY2, 0], r2+epsilon);
-    % Create an inner sphere for obstacle 2 with a radius decreased by epsilon
-    obs2_inner = shapeSphere(g, [obsX2, obsY2, 0], r2-epsilon);
-    % Calculate the difference between the outer and inner spheres for obstacle 2
-    obs2 = shapeDifference(obs2_outer, obs2_inner);
-else
-    % If the height constraint is not met, create a sphere for obstacle 2 with radius r2
-    obs2 = shapeSphere(g, [obsX2, obsY2, 0], r2+epsilon);
-end
-
-% Combine the two obstacle representations into a single data set
-data0 = shapeUnion(obs1, obs2);
-
-
+%obs_params.num_obs = 2;
+obs_params.max_radius = 5;
+obs_params.min_radius = 2;
+data0 = get_random_obstacles(g, obs_params);
 
 % time
 t0 = 0;
