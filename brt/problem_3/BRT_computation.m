@@ -80,7 +80,7 @@ dt = 0.05;
 tau = t0:dt:tMax;
 
 % control trying to min or max value function?
-uMode = 'max';
+uMode = 'min';
 dMode = 'min';
 
 % Define dynamic system
