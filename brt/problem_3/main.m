@@ -1,4 +1,9 @@
 clear all; close all; clc;
+
+addpath(genpath('..\helperOC'))  
+addpath(genpath('..\ToolboxLS'))
+addpath(genpath('..\..\'))
+
 %% Get the params
 params = get_params();
 
