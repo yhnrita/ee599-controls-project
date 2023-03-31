@@ -67,6 +67,11 @@ epsilon = 0.5;
 obs_params.max_radius = 5;
 obs_params.min_radius = 2;
 data0 = get_random_obstacles(g, obs_params);
+% 
+% ignoreDims = [1, 1, 0];
+% center = [0, 0, 0];
+% radius = 1;
+% data0 = shapeCylinder(g, ignoreDims, center, radius);
 
 % time
 t0 = 0;
@@ -79,7 +84,9 @@ uMode = 'max';
 dMode = 'min';
 
 % Define dynamic system
-dCar = DubinsCar([0, 0, 0], wMax, speed, dMax);
+controlRange = [-wMax, wMax];
+dCar = DubinsCar([0, 0, 0], controlRange, controlRange, controlRange, 1, speed, dMax);
+%x, FxRange, FyRange, TRange, mass, inertia, dMax, dims
 
 % Put grid and dynamic systems into schemeData
 schemeData.grid = g;
