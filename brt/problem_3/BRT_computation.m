@@ -80,10 +80,11 @@ dt = 0.05;
 tau = t0:dt:tMax;
 
 % control trying to min or max value function?
-uMode = 'min';
+uMode = 'max';
 dMode = 'min';
 
 % Define dynamic system
+wMax = 0.1;
 controlRange = [-wMax, wMax];
 dCar = DubinsCar([0, 0, 0], controlRange, controlRange, controlRange, 1, speed, dMax);
 %x, FxRange, FyRange, TRange, mass, inertia, dMax, dims
@@ -106,7 +107,7 @@ HJIextraArgs.visualize.deleteLastPlot = false; %delete previous plot as you upda
 % uncomment if you want to see a 2D slice
 HJIextraArgs.visualize.plotData.plotDims = [1 1 0]; %plot x, y
 HJIextraArgs.visualize.plotData.projpt = [0]; %project at theta = 0
-HJIextraArgs.visualize.viewAngle = [0,90]; % view 2D
+%HJIextraArgs.visualize.viewAngle = [0,90]; % view 2D
 
 %[data, tau, extraOuts] = ...
 % HJIPDE_solve(data0, tau, schemeData, minWith, extraArgs)

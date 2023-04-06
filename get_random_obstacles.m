@@ -15,17 +15,27 @@ function data = get_random_obstacles(g, params)
     
     % If user specified input params, use those instead
     try
-        num_obs = params.num_obs;
-        max_radius = params.max_radius;
-        min_radius = params.min_radius;
-        max_height = params.max_height;
-        min_height = params.min_height;
+        if isfield(params, num_obs)
+            num_obs = params.num_obs;
+        end
+        if isfield(params, max_radius)
+            max_radius = params.max_radius;
+        end
+        if isfield(params, min_radius)
+            min_radius = params.min_radius;
+        end
+        if isfield(params, max_height)
+            max_height = params.max_height;
+        end
+        if isfield(params, min_height)
+            min_height = params.min_height;
+        end
     catch ME
         warning(getReport(ME));
     end
     
     % Start with empty obstacles
-    data0 = shapeSphere(g, [0, 0, 0], 0);
+    data0 = shapeCylinder(g, [], [0, 0, 0], 0);
     
     for s = 1:num_obs
         rng shuffle
@@ -34,9 +44,11 @@ function data = get_random_obstacles(g, params)
         % Obstacles should always start from the ground
         center(3) = 0;
         r = round(min_radius + (max_radius - min_radius) * rand());
-        d = shapeSphere(g, center, r);
+        %d = shapeSphere(g, center, r);
+        d = shapeCylinder(g, [3], center, r);
         data0 = shapeUnion(data0, d);
     end
+    %data0 = shapeCylinder(g, [3], [0.1, 0.2, 0], 0.5);
     
     data = data0;
         
