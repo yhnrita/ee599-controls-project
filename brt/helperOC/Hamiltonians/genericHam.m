@@ -25,13 +25,13 @@ end
 if isfield(schemeData, 'uIn')
   u = schemeData.uIn;
 else
-  u = dynSys.optCtrl(t, schemeData.grid.xs, deriv, schemeData.uMode);
+  u = dynSys.optCtrl(t, schemeData.grid.xs, deriv, schemeData.uMode);   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end
 
 if isfield(schemeData, 'dIn')
   d = schemeData.dIn;
 else
-  d = dynSys.optDstb(t, schemeData.grid.xs, deriv, schemeData.dMode);
+  d = dynSys.optDstb(t, schemeData.grid.xs, deriv, schemeData.dMode);   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 end
 
 hamValue = 0;
@@ -64,7 +64,7 @@ if isfield(schemeData, 'side')
 end
 
 %% Plug optimal control into dynamics to compute Hamiltonian
-dx = dynSys.dynamics(t, schemeData.grid.xs, u, d);
+dx = dynSys.dynamics(t, schemeData.grid.xs, u, d);                      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 for i = 1:dynSys.nx
   hamValue = hamValue + deriv{i}.*dx{i};
 end

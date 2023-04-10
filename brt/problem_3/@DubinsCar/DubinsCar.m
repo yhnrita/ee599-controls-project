@@ -60,18 +60,20 @@
 %       
 %       
 %       % Basic vehicle properties
-%       obj.pdim = [find(dims == 1) find(dims == 2)]; % Position dimensions
-%       obj.nx = length(dims);
-%       obj.nu = 1;
-%       obj.nd = 2;
-%       
+%       obj.pdim = [find(dims == 1) find(dims == 2)];     % Position dimensions
+%       obj.nx = length(dims);                            % Number of state dimensions
+%       obj.nu = 1;                                       % Number of control inputs
+%       obj.nd = 2;                                       % Number of disturbance inputs
+%     
+%       % Set the initial state and its history
 %       obj.x = x;
 %       obj.xhist = obj.x;
-%       
-%       obj.wRange = wRange;
-%       obj.speed = speed;
-%       obj.dMax = dMax;
-%       obj.dims = dims;
+%     
+%       % Set other properties for the DubinsCar object
+%       obj.wRange = wRange;                              % Steering angle range
+%       obj.speed = speed;                                % Constant speed
+%       obj.dMax = dMax;                                  % Maximum disturbance
+%       obj.dims = dims;                                  % Active dimensions
 %     end
 %     
 %   end % end methods
@@ -85,6 +87,8 @@ classdef DubinsCar < DynSys
     FyRange % Range of force in y-axis
     TRange  % Range of torque
     
+    speed   % Constant speed
+
     % Car properties
     mass    % Mass of the car
     inertia % Moment of inertia about the z-axis
@@ -163,11 +167,12 @@ classdef DubinsCar < DynSys
       end
       
       % Basic vehicle properties
-      obj.pdim = [find(dims == 1) find(dims == 2)]; % Position dimensions
-      obj.nx = length(dims);
-      obj.nu = 3;
-      obj.nd = 2;
+      obj.pdim = [find(dims == 1) find(dims == 2)];   % Position dimensions
+      obj.nx = length(dims);                          % Number of state dimensions
+      obj.nu = 3;                                     % Number of control inputs
+      obj.nd = 2;                                     % Number of disturbance inputs
       
+      % Set the initial state and its history
       obj.x = x;
       obj.xhist = obj.x;
       
@@ -176,8 +181,11 @@ classdef DubinsCar < DynSys
       obj.TRange = TRange;
       obj.mass = mass;
       obj.inertia = inertia;
-      obj.dMax = dMax;
-      obj.dims = dims;
+
+      obj.speed = 1;                                  % Constant speed
+
+      obj.dMax = dMax;                                % Maximum disturbance
+      obj.dims = dims;                                % Active dimensions
     end
-end % end methods
-end % end classdef
+end       % end methods
+end       % end classdef

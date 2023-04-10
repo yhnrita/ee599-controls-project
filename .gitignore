@@ -3,3 +3,5 @@ brt/problem_3/BRT_computation.asv
 brt/problem_3/get_nominal_controller.asv
 brt/problem_3/mpc.asv
 brt/problem_3/@DubinsCar/DubinsCar.asv
+brt/problem_3/@DubinsCar/dynamics.asv
+brt/problem_3/@DubinsCar/optDstb.asv

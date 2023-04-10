@@ -951,7 +951,7 @@ if numDims(data0) == gDim
     elseif lowMemory
         data = single(data0);
     else
-        data = zeros([data0size(1:gDim) length(tau)]);
+        data = zeros([data0size(1:gDim) length(tau)]);          %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         data(clns{:}, 1) = data0;
     end
     
@@ -1010,7 +1010,7 @@ for i = istart:length(tau)
         end
         
     else
-        y0 = data(clns{:}, i-1);
+        y0 = data(clns{:}, i-1);        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     end
     y = y0(:);
     
@@ -1030,7 +1030,7 @@ for i = istart:length(tau)
         end
 
         
-        % Solve hamiltonian and apply to value function (y) to get updated
+        % Solve hamiltonian and apply to value function (y) to get updated       %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % value function
         [tNow, y] = feval(integratorFunc, schemeFunc, [tNow tau(i)], y, ...
             integratorOptions, schemeData);

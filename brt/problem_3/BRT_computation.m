@@ -84,10 +84,13 @@ uMode = 'max';
 dMode = 'min';
 
 % Define dynamic system
-wMax = 0.1;
-controlRange = [-wMax, wMax];
-dCar = DubinsCar([0, 0, 0], controlRange, controlRange, controlRange, 1, speed, dMax);
-%x, FxRange, FyRange, TRange, mass, inertia, dMax, dims
+% dCar = DubinsCar([0, 0, 0], wMax, speed, dMax);
+FxRange = [-0.1, 0.1];
+FyRange = [-1, 1];
+TRange  = [-0.1, 0.1];
+%                                                   mass, inertia, dMax,    dims
+dCar = DubinsCar([0, 0, 0], FxRange, FyRange, TRange, 10,    10,      dMax);
+
 
 % Put grid and dynamic systems into schemeData
 schemeData.grid = g;
