@@ -7,10 +7,13 @@ obsY2 = params.obsY2;
 speed = params.speed;
 wMax = params.wMax;
 dMax = params.dMax;
+length1 = params.obslength1;
 width1 = params.obswidth1;
 height1 = params.obsheight1;
+length2 = params.obslength2;
 width2 = params.obswidth2;
 height2 = params.obsheight2;
+
 
 %% TODO
 % Define the grid for the computation: g
@@ -21,8 +24,8 @@ g = createGrid(grid_min, grid_max, N);
 
 %% TODO
 % Define the failure set: data0
-obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1+width1, obsY1+height1, inf]); 
-obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2+width2, obsY2+height2, inf]);
+obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1 + length1, obsY1 + width1, inf]); 
+obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2 + length2, obsY2 + width2, inf]);
 data0 = shapeUnion(obs1, obs2);
 %data0 = obs1;
 

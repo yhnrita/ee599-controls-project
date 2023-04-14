@@ -6,3 +6,4 @@ brt/problem_3/@DubinsCar/DubinsCar.asv
 brt/problem_3/@DubinsCar/dynamics.asv
 brt/problem_3/@DubinsCar/optDstb.asv
 brt/problem_3/get_params.asv
+brt/problem_3/plot_env.asv

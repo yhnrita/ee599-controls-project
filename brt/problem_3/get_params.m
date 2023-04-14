@@ -18,15 +18,17 @@ function params = get_params()
     % obstacle 1 params
     params.obsX1 = -9;
     params.obsY1 = -2;
-    params.obswidth1 = 9;
-    params.obslength1 = 6;  % Not used
+    params.obsZ1 = 0;
+    params.obslength1 = 9;    
+    params.obswidth1 = 6;
     params.obsheight1 = 6;
 
     % obstacle 2 params
     params.obsX2 = 0;
     params.obsY2 = -2;
-    params.obswidth2 = 9;
-    params.obslength2 = 6;  % Not used
+    params.obsZ2 = 0;
+    params.obslength2 = 9;    
+    params.obswidth2 = 6;
     params.obsheight2 = 6;
 
     % disturbance params 
