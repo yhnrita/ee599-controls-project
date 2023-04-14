@@ -20,21 +20,20 @@ N = [51; 51; 51];
 g = createGrid(grid_min, grid_max, N);
 
 %% TODO
-% % Define the failure set: data0
-% obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1+width1, obsY1+height1, inf]); 
-% obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2+width2, obsY2+height2, inf]);
-% data0 = shapeUnion(obs1, obs2);
-% %data0 = obs1;
+% Define the failure set: data0
+obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1+width1, obsY1+height1, inf]); 
+obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2+width2, obsY2+height2, inf]);
+data0 = shapeUnion(obs1, obs2);
+%data0 = obs1;
 
-%% TODO
-%% Define the failure set: data0
+%% Fixed test 2 circle
 % Set the height constraint, obstacle radii, and safe step clearance epsilon
-c = 10;
-r1 = 2; % radius of the obstacle 1
-r2 = 2; % radius of the obstacle 2
-epsilon = 0.5;
-
-% Check if the height of obstacle 1 is within the height constraint
+% c = 10;
+% r1 = 2; % radius of the obstacle 1
+% r2 = 2; % radius of the obstacle 2
+% epsilon = 0.5;
+% 
+% % Check if the height of obstacle 1 is within the height constraint
 % if height1 <= c
 %     % Create an outer sphere for obstacle 1 with a radius increased by epsilon
 %     obs1_outer = shapeSphere(g, [obsX1, obsY1, 0], r1+epsilon);
@@ -63,15 +62,23 @@ epsilon = 0.5;
 % % Combine the two obstacle representations into a single data set
 % data0 = shapeUnion(obs1, obs2);
 
-%obs_params.num_obs = 2;
-obs_params.max_radius = 5;
-obs_params.min_radius = 2;
-data0 = get_random_obstacles(g, obs_params);
-% 
+%% Random test
+% %obs_params.num_obs = 2;
+% obs_params.max_radius = 5;
+% obs_params.min_radius = 2;
+% data0 = get_random_obstacles(g, obs_params);
+
+%% 3D?
 % ignoreDims = [1, 1, 0];
 % center = [0, 0, 0];
 % radius = 1;
 % data0 = shapeCylinder(g, ignoreDims, center, radius);
+
+
+
+
+
+%%
 
 % time
 t0 = 0;
@@ -83,13 +90,16 @@ tau = t0:dt:tMax;
 uMode = 'max';
 dMode = 'min';
 
+%% Old dynamics
 % Define dynamic system
-% dCar = DubinsCar([0, 0, 0], wMax, speed, dMax);
-FxRange = [-0.1, 0.1];
-FyRange = [-1, 1];
-TRange  = [-0.1, 0.1];
-%                                                   mass, inertia, dMax,    dims
-dCar = DubinsCar([0, 0, 0], FxRange, FyRange, TRange, 10,    10,      dMax);
+dCar = DubinsCar([0, 0, 0], wMax, speed, dMax);
+
+%% New dynamics
+% FxRange = [-0.1, 0.1];
+% FyRange = [-1, 1];
+% TRange  = [-0.1, 0.1];
+% %                                                   mass, inertia, dMax,    dims
+% dCar = DubinsCar([0, 0, 0], FxRange, FyRange, TRange, 10,    10,      dMax);
 
 
 % Put grid and dynamic systems into schemeData

@@ -7,25 +7,27 @@ function params = get_params()
     params.dt = 0.05; % Discretization step
     params.speed = 1; % Maximum speed - 1 m/s
     params.wMax = 1.1; % Maximum control - 1.1 rad/s
-    params.xinit = [-4; -4; 0]; % Initial state
+    params.xinit = [-2; -5; 0]; % Initial state
 
     % Setup environment parameters
     % goal params  
-    params.goalX = 8;
+    params.goalX = 1;
     params.goalY = 8;
     params.goalR = 0.25;
 
     % obstacle 1 params
-    params.obsX1 = -5;
-    params.obsY1 = 0;
-    params.obswidth1 = 4.5;
-    params.obsheight1 = 4.5;
+    params.obsX1 = -9;
+    params.obsY1 = -2;
+    params.obswidth1 = 9;
+    params.obslength1 = 6;  % Not used
+    params.obsheight1 = 6;
 
     % obstacle 2 params
-    params.obsX2 = 1;
-    params.obsY2 = 0;
-    params.obswidth2 = 2.5;
-    params.obsheight2 = 4.5;
+    params.obsX2 = 0;
+    params.obsY2 = -2;
+    params.obswidth2 = 9;
+    params.obslength2 = 6;  % Not used
+    params.obsheight2 = 6;
 
     % disturbance params 
     params.dMax = 0;
