@@ -64,7 +64,7 @@ rectangle('Position',[params.goalX-params.goalR params.goalY-params.goalR ...
     2*params.goalR 2*params.goalR],...
     'EdgeColor','k','FaceColor',[0 1 0],'Curvature',[1 1]);
 
-text(params.goalX,params.goalY+0.5,'Goal','FontSize',16)
+text(params.goalX - 3,params.goalY + 1,'Goal','FontSize',16)
 
 if ~isempty(traj)
     % initial state
