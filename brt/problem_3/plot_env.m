@@ -37,6 +37,7 @@ fig.Name = 'BRT in 3D';
 fig.Color = [1 1 1];
 fig.NumberTitle = 'off';
 
+
 %% 2D Obstacles Visualization
 % Create obstacle 1
 % PlotCuboid([5,10,15],[2,3,4]);
@@ -60,7 +61,7 @@ text(params.obsX2+(params.obslength2)/2,params.obsY2+(params.obswidth2)/2,'B2','
 
 % Create goal point
 viscircles([params.goalX, params.goalY], [params.goalR], 'color', 'g');
-rectangle('Position',[params.goalX-params.goalR params.goalY-params.goalR ...
+rectangle('Position',[params.goalX - params.goalR params.goalY - params.goalR ...
     2*params.goalR 2*params.goalR],...
     'EdgeColor','k','FaceColor',[0 1 0],'Curvature',[1 1]);
 
@@ -71,8 +72,8 @@ if ~isempty(traj)
     xinit = traj(:,1);
     % Create initial state
     viscircles(xinit(1:2,:)', [0.1], 'color', 'b');
-    plot(traj(1, :), traj(2, :), 'color', 'b', 'LineWidth', 2);
 %     plot(traj(1, :), traj(2, :), 'color', 'b', 'LineWidth', 2);
+    plot3(traj(1, :), traj(2, :), traj(3, :), 'color', 'b', 'LineWidth', 2);
 end
 
 axis square;
@@ -96,15 +97,10 @@ plot3(x,y,z,'r');
 
 if nargin == 7
     %% Fill each planes with colors
-    hold on;
-    fill3([X X + length X + length X],[Y Y Y Y],[Z Z Z + height Z + height], color);
-    hold on;
-    fill3([X X X X ],[Y Y + width Y + width Y],[Z + height Z + height Z Z], color);
-    hold on;
-    fill3([X X X + length X + length ],[Y + width Y + width Y + width Y + width],[Z Z + height Z + height Z], color);
-    hold on;
-    fill3([X + length X + length X + length X + length ],[Y Y Y + width Y + width],[Z Z + height Z + height Z], color);
-    fill3([X X X + length X + length ],[Y Y + width Y + width Y],[Z + height Z + height Z + height Z + height], color);
-    hold on;
-    fill3([X X X + length X + length ],[Y Y + width Y + width Y],[Z Z Z Z], color);  
+    fill3([X X + length X + length X], [Y Y Y Y], [Z Z Z + height Z + height], color);
+    fill3([X X X X ], [Y Y + width Y + width Y], [Z + height Z + height Z Z], color);
+    fill3([X X X + length X + length ], [Y + width Y + width Y + width Y + width], [Z Z + height Z + height Z], color);
+    fill3([X + length X + length X + length X + length], [Y Y Y + width Y + width], [Z Z + height Z + height Z], color);
+    fill3([X X X + length X + length ], [Y Y + width Y + width Y], [Z + height Z + height Z + height Z + height], color);
+    fill3([X X X + length X + length ], [Y Y + width Y + width Y], [Z Z Z Z], color);
 end

@@ -26,8 +26,10 @@ g = createGrid(grid_min, grid_max, N);
 % Define the failure set: data0
 obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1 + length1, obsY1 + width1, inf]); 
 obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2 + length2, obsY2 + width2, inf]);
+% obs2 = shapeCylinder(g, [], zeros(g.dim, 1), 1);
 data0 = shapeUnion(obs1, obs2);
 %data0 = obs1;
+
 
 %% Fixed test 2 circle
 % Set the height constraint, obstacle radii, and safe step clearance epsilon
@@ -123,7 +125,7 @@ HJIextraArgs.visualize.deleteLastPlot = false; %delete previous plot as you upda
 % uncomment if you want to see a 2D slice
 HJIextraArgs.visualize.plotData.plotDims = [1 1 0]; %plot x, y
 HJIextraArgs.visualize.plotData.projpt = [0]; %project at theta = 0
-%HJIextraArgs.visualize.viewAngle = [0,90]; % view 2D
+% HJIextraArgs.visualize.viewAngle = [0,90]; % view 2D
 
 %[data, tau, extraOuts] = ...
 % HJIPDE_solve(data0, tau, schemeData, minWith, extraArgs)

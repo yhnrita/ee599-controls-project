@@ -125,8 +125,11 @@ switch g.dim
     h = plot(g.xs{1}, data, '-', 'color', color);
     hold on
     plot(g.xs{1}, zeros(size(g.xs{1})), 'k:')
-    
   case 2
+    view(3);
+    xlabel('X');
+    ylabel('Y');
+    zlabel('Z');
     if isscalar(level)
       [~, h] = contour(g.xs{1}, g.xs{2}, data, [level level], 'color', color);
     elseif isempty(level)

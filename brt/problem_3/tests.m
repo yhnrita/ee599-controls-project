@@ -1,7 +1,7 @@
 function noise = tests(state,params)
     switch params.test_choice
         case 0
-            noise = [0;0];
+            noise = [0;0;0];
         case 1
             noise = test_1();
         case 2

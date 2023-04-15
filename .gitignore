@@ -7,3 +7,6 @@ brt/problem_3/@DubinsCar/dynamics.asv
 brt/problem_3/@DubinsCar/optDstb.asv
 brt/problem_3/get_params.asv
 brt/problem_3/plot_env.asv
+brt/problem_3/main.asv
+brt/problem_3/myMpc.asv
+brt/problem_3/simulate.asv
