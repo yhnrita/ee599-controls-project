@@ -71,7 +71,7 @@ data0 = shapeUnion(obs1, obs2);
 % %obs_params.num_obs = 2;
 % obs_params.max_radius = 5;
 % obs_params.min_radius = 2;
-% data0 = get_random_obstacles(g, obs_params);
+% [data0, obs_info] = get_random_obstacles(g, obs_params);
 
 %% 3D?
 % ignoreDims = [1, 1, 0];

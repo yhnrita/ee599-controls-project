@@ -1,4 +1,4 @@
-function data = get_random_obstacles(g, params)
+function [data, obs_info] = get_random_obstacles(g, params)
     %% Input params = {num_obs, max_radius, min_radius, max_height, min_height}
     if nargin < 1
         % Require a grid input
@@ -36,6 +36,7 @@ function data = get_random_obstacles(g, params)
     
     % Start with empty obstacles
     data0 = shapeCylinder(g, [], [0, 0, 0], 0);
+    obs_info = {};
     
     for s = 1:num_obs
         rng shuffle
@@ -47,6 +48,9 @@ function data = get_random_obstacles(g, params)
         %d = shapeSphere(g, center, r);
         d = shapeCylinder(g, [3], center, r);
         data0 = shapeUnion(data0, d);
+        
+        % Mark the obstacle info in the format of [center_x, center_y, r]
+        obs_info{s} = [center(1), center(2), r];
     end
     %data0 = shapeCylinder(g, [3], [0.1, 0.2, 0], 0.5);
     
