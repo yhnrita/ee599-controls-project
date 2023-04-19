@@ -1,34 +1,50 @@
 function [safety_controller, worst_dist, data, tau, g, derivatives] = BRT_computation(params)
+
 % unpack params
-obsX1 = params.obsX1;
-obsY1 = params.obsY1;
-obsX2 = params.obsX2;
-obsY2 = params.obsY2;
-speed = params.speed;
-wMax = params.wMax;
-dMax = params.dMax;
-length1 = params.obslength1;
-width1 = params.obswidth1;
-height1 = params.obsheight1;
-length2 = params.obslength2;
-width2 = params.obswidth2;
-height2 = params.obsheight2;
+obsX1 = params.obsX1;   % -9
+obsY1 = params.obsY1;   % -2
+obsZ1 = params.obsZ1;   % 0
+
+obsX2 = params.obsX2;   % ?
+obsY2 = params.obsY2;   % ?
+obsZ2 = params.obsZ2;   % ?
+
+speed = params.speed;   % 1
+wMax = params.wMax;     % 1.1
+dMax = params.dMax;     % ?
+zMax = params.zMax;     % 1.2
+
+length1 = params.obslength1;    % 9
+width1 = params.obswidth1;      % 6
+height1 = params.obsheight1;    % 6
+
+length2 = params.obslength2;    % ?
+width2 = params.obswidth2;      % ?
+height2 = params.obsheight2;    % ?
 
 
-%% TODO
+
+% %% TODO
+% % Define the grid for the computation: g
+% grid_min = [-10; -10; -20];
+% grid_max = [10; 10; 20];
+% N = [21; 21; 21];
+% g = createGrid(grid_min, grid_max, N);
+
 % Define the grid for the computation: g
-grid_min = [-10; -10; -20];
-grid_max = [10; 10; 20];
-N = [51; 51; 51];
+grid_min = [-10; -10; -10; -10; -10];
+grid_max = [ 10;  10;  10;  10;  10];
+N = [21; 21; 21; 21; 21];
 g = createGrid(grid_min, grid_max, N);
 
 %% TODO
 % Define the failure set: data0
-obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1 + length1, obsY1 + width1, inf]); 
-obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2 + length2, obsY2 + width2, inf]);
+% obs1 = shapeRectangleByCorners(g, [obsX1, obsY1, -inf], [obsX1 + length1, obsY1 + width1, inf]);
+% obs2 = shapeRectangleByCorners(g, [obsX2, obsY2, -inf], [obsX2 + length2, obsY2 + width2, inf]);
+obs1 = shapeCuboidByCorners(g, [obsX1, obsY1, obsZ1, -inf, -inf], [obsX1 + length1, obsY1 + width1, obsZ1 + height1, inf, inf]);
 % obs2 = shapeCylinder(g, [], zeros(g.dim, 1), 1);
-data0 = shapeUnion(obs1, obs2);
-%data0 = obs1;
+% data0 = shapeUnion(obs1, obs2);
+data0 = obs1;
 
 
 %% Fixed test 2 circle
@@ -80,9 +96,6 @@ data0 = shapeUnion(obs1, obs2);
 % data0 = shapeCylinder(g, ignoreDims, center, radius);
 
 
-
-
-
 %%
 
 % time
@@ -97,7 +110,8 @@ dMode = 'min';
 
 %% Old dynamics
 % Define dynamic system
-dCar = DubinsCar([0, 0, 0], wMax, speed, dMax);
+% dCar = DubinsCar([0, 0, 0], wMax, speed, dMax);
+dCar = DubinsCar([0, 0, 0, 0, 0], wMax, zMax, speed, dMax);
 
 %% New dynamics
 % FxRange = [-0.1, 0.1];
@@ -119,13 +133,15 @@ schemeData.dMode = dMode;
 % HJIextraArgs.visualize = true; %show plot
 HJIextraArgs.visualize.valueSet = 1;
 HJIextraArgs.visualize.initialValueSet = 1;
-HJIextraArgs.visualize.figNum = 1; %set figure number
-HJIextraArgs.visualize.deleteLastPlot = false; %delete previous plot as you update
+HJIextraArgs.visualize.figNum = 1;              % set figure number
+HJIextraArgs.visualize.deleteLastPlot = false;  % delete previous plot as you update
 
 % uncomment if you want to see a 2D slice
-HJIextraArgs.visualize.plotData.plotDims = [1 1 0]; %plot x, y
-HJIextraArgs.visualize.plotData.projpt = [0]; %project at theta = 0
-% HJIextraArgs.visualize.viewAngle = [0,90]; % view 2D
+% HJIextraArgs.visualize.plotData.plotDims = [1 1 0]; % plot x, y
+HJIextraArgs.visualize.plotData.plotDims = [1 1 1 0 0]; % plot x, y, z
+% HJIextraArgs.visualize.plotData.projpt = [0];       % project at theta = 0, zspeed = 0
+HJIextraArgs.visualize.plotData.projpt = [0, 0];       % project at theta = 0, zspeed = 0
+% HJIextraArgs.visualize.viewAngle = [0,90];        % view 2D
 
 %[data, tau, extraOuts] = ...
 % HJIPDE_solve(data0, tau, schemeData, minWith, extraArgs)
