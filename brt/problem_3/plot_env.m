@@ -3,10 +3,10 @@ figure(1);
 clf;
 box off;
 grid off;
-x0=10;
-y0=10;
-width=1000;
-length=1000;
+x0 = 10;
+y0 = 10;
+width = 800;
+length = 800;
 set(gcf,'position',[x0,y0,width,length])
 view(3);
 
