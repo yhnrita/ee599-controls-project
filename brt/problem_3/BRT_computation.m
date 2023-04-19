@@ -142,12 +142,15 @@ HJIextraArgs.visualize.plotData.plotDims = [1 1 1 0 0]; % plot x, y, z
 % HJIextraArgs.visualize.plotData.projpt = [0];       % project at theta = 0, zspeed = 0
 HJIextraArgs.visualize.plotData.projpt = [0, 0];       % project at theta = 0, zspeed = 0
 % HJIextraArgs.visualize.viewAngle = [0,90];        % view 2D
+HJIextraArgs.makeVideo = true;
+
 
 %[data, tau, extraOuts] = ...
 % HJIPDE_solve(data0, tau, schemeData, minWith, extraArgs)
 [data, tau2, ~] = ...
   HJIPDE_solve(data0, tau, schemeData, 'zero', HJIextraArgs);
-derivatives = computeGradients(g, data(:,:,:,end));
+% derivatives = computeGradients(g, data(:,:,:,end));
+derivatives = computeGradients(g, data(:,:,:,:,:,end));
 safety_controller =  dCar.optCtrl([], [], derivatives, 'max');
 worst_dist =  dCar.optDstb([], [], derivatives, 'min');
 tau = tau2;

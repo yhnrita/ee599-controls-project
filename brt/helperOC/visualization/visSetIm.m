@@ -153,6 +153,16 @@ function h = visSetIm3D(g, data, color, level, applyLight)
 % h = visSetIm3D(g, data, color, level, applyLight)
 % Visualizes a 3D reachable set
 
+xlim([-10, 10]);
+ylim([-10, 10]);
+zlim([-10, 10]);
+set(gca,'XTickLabel',[]);
+set(gca,'YTickLabel',[]);
+set(gca,'ZTickLabel',[]);
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [ mesh_xs, mesh_data ] = gridnd2mesh(g, data);
 
