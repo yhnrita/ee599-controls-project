@@ -16,10 +16,10 @@ function plots = plot_controller(choice, cont_traj)
     end
     xlabel('Timesteps')
     ylabel('Control Value')
-    x0=10;
-    y0=10;
-    width=1000;
-    height=1000;
+    x0 = 10;
+    y0 = 10;
+    width = 800;
+    height = 800;
     set(gcf,'position',[x0,y0,width,height])
     title('Controller Profile')
     plots = 0;

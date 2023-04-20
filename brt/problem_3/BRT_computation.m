@@ -100,7 +100,7 @@ data0 = obs1;
 
 % time
 t0 = 0;
-tMax = 2;
+tMax = 0.05;
 dt = 0.05;
 tau = t0:dt:tMax;
 
@@ -142,7 +142,7 @@ HJIextraArgs.visualize.plotData.plotDims = [1 1 1 0 0]; % plot x, y, z
 % HJIextraArgs.visualize.plotData.projpt = [0];       % project at theta = 0, zspeed = 0
 HJIextraArgs.visualize.plotData.projpt = [0, 0];       % project at theta = 0, zspeed = 0
 % HJIextraArgs.visualize.viewAngle = [0,90];        % view 2D
-HJIextraArgs.makeVideo = true;
+% HJIextraArgs.makeVideo = true;
 
 
 %[data, tau, extraOuts] = ...

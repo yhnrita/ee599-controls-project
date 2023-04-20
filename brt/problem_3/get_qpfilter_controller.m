@@ -2,7 +2,7 @@ function u_qp_filtered = get_qpfilter_controller(current_state, u_nom, params)
     
     options = optimoptions('fmincon','Display','off','Algorithm','interior-point');
     % valuex queries the the value function from the precomputed brt
-    valuex = eval_u(params.g,params.data(:,:,:,end),current_state);
+    valuex = eval_u(params.g,params.data(:,:,:,:,:,end),current_state);
     
     % dvdx computes the spatial derivative of the value function at the
     % current state
@@ -18,10 +18,24 @@ function u_qp_filtered = get_qpfilter_controller(current_state, u_nom, params)
     % min(u) 0.5*||u_nom -u||^2 st u is a safe control 
     % Why is dvdx needed? Isnt derivatives already dvdx?
     % What are optDst needed for?
-    A = -dvdx(3)*params.dt;
-    b = valuex + (params.dt * dvdx(1) .* (params.speed * cos(current_state(3)))) + ...
-        (params.dt * dvdx(2) .* (params.speed * sin(current_state(3)))) + ... 
-        (params.dt * dvdx(1) .* optDst(1)) + (params.dt * dvdx(2) .* optDst(2));
-    u_qp_filtered = fmincon(@(u)0.5*(u-u_nom)^2, u_nom,[A],[b], [], [], [], [], [], options);
+%     A = -dvdx(3)*params.dt;
+%     b = valuex + (params.dt * dvdx(1) .* (params.speed * cos(current_state(3)))) + ...
+%         (params.dt * dvdx(2) .* (params.speed * sin(current_state(3)))) + ... 
+%         (params.dt * dvdx(1) .* optDst(1)) + (params.dt * dvdx(2) .* optDst(2));
+
+
+%     A = - dvdx(3);
+%     
+%     b =  valuex + (dvdx(1) * (params.speed * cos(current_state(3)) + optDst(1)) ...
+%         + dvdx(2) * (params.speed * sin(current_state(3)) + optDst(2)) );
+
+    A = [- dvdx(4), - dvdx(5)];
+    
+    b =  valuex + (dvdx(1) * (params.speed * cos(current_state(4)) + optDst(1)) ...
+        + dvdx(2) * (params.speed * sin(current_state(4)) + optDst(2)) ...
+        + dvdx(3) * ( current_state(5)) );
+
+    u_qp_filtered = fmincon(@(u)( 0.5*(u(1)-u_nom(1))^2 + 0.5*(u(2)-u_nom(2))^2 ), u_nom,[A],[b], [], [], [], [], [], options);
+
     
 end

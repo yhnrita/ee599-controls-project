@@ -1,4 +1,5 @@
 function plots = plot_env(traj, params)
+
 figure(1);
 clf;
 box off;
@@ -13,13 +14,20 @@ view(3);
 %% 3D Obstacles Visualization
 % Plot cuboid 1 in 3D
 PlotCuboid(params.obsX1, params.obsY1, params.obsZ1, params.obslength1, params.obswidth1, params.obsheight1);
-text(params.obsX1 + (params.obslength1)/2,params.obsY2 - (params.obswidth1)/5,'B1','FontSize',18);
+% text(params.obsX1 + (params.obslength1)/2,params.obsY2 - (params.obswidth1)/5,'B1','FontSize',18);
 
-hold on;
+% hold on;
 
 % Plot cuboid 2 in 3D
-PlotCuboid(params.obsX2, params.obsY2, params.obsZ2, params.obslength2, params.obswidth2, params.obsheight2);
-text(params.obsX2 + (params.obslength2)/2,params.obsY2 - (params.obswidth2)/5,'B2','FontSize',18);
+% PlotCuboid(params.obsX2, params.obsY2, params.obsZ2, params.obslength2, params.obswidth2, params.obsheight2);
+% text(params.obsX2 + (params.obslength2)/2,params.obsY2 - (params.obswidth2)/5,'B2','FontSize',18);
+
+% rectangle('Position',[params.obsX1 params.obsY1 params.obslength1 params.obswidth1 ],...
+%     'EdgeColor','r','FaceColor',[1 0 0],'Curvature',0.1);
+
+
+hold on;
+text(params.obsX1-(params.obslength1)/5,params.obsY2+(params.obswidth1)/2,'Ground','FontSize',18);
 
 
 xlim([-10, 10]);
@@ -44,7 +52,7 @@ fig.NumberTitle = 'off';
 rectangle('Position',[params.obsX1 params.obsY1 params.obslength1 params.obswidth1 ],...
     'EdgeColor','r','FaceColor',[1 0 0],'Curvature',0.1);
  hold on;
-text(params.obsX1+(params.obslength1)/2,params.obsY2+(params.obswidth1)/2,'B1','FontSize',18);
+% text(params.obsX1+(params.obslength1)/2,params.obsY2+(params.obswidth1)/2,'B1','FontSize',18);
 
 % Create obstacle 2
 % rectangle('Position',[params.obscenX-params.obsR params.obscenY-params.obsR ...
@@ -54,24 +62,39 @@ text(params.obsX1+(params.obslength1)/2,params.obsY2+(params.obswidth1)/2,'B1','
 
 % 
 % Create obstacle 2
-rectangle('Position',[params.obsX2 params.obsY2 params.obslength2 params.obswidth2],...
-    'EdgeColor','r','FaceColor',[1 0 0],'Curvature',0.1);
-hold on;
-text(params.obsX2+(params.obslength2)/2,params.obsY2+(params.obswidth2)/2,'B2','FontSize',18);
+% rectangle('Position',[params.obsX2 params.obsY2 params.obslength2 params.obswidth2],...
+%     'EdgeColor','r','FaceColor',[1 0 0],'Curvature',0.1);
+% hold on;
+% text(params.obsX2+(params.obslength2)/2,params.obsY2+(params.obswidth2)/2,'B2','FontSize',18);
 
 % Create goal point
-viscircles([params.goalX, params.goalY], [params.goalR], 'color', 'g');
-rectangle('Position',[params.goalX - params.goalR params.goalY - params.goalR ...
-    2*params.goalR 2*params.goalR],...
-    'EdgeColor','k','FaceColor',[0 1 0],'Curvature',[1 1]);
+% viscircles([params.goalX, params.goalY], [params.goalR], 'color', 'g');
+% rectangle('Position',[params.goalX - params.goalR params.goalY - params.goalR ...
+%     2*params.goalR 2*params.goalR],...
+%     'EdgeColor','k','FaceColor',[0 1 0],'Curvature',[1 1]);
 
+% Create goal point
+[X_tmp,Y_tmp,Z_tmp] = sphere;
+r = 0.2;
+X_plot = X_tmp * r;
+Y_plot = Y_tmp * r;
+Z_plot = Z_tmp * r;
+surf(X_plot + params.goalX, Y_plot + params.goalY, Z_plot + params.goalZ);
 text(params.goalX - 3,params.goalY + 1,'Goal','FontSize',16)
 
 if ~isempty(traj)
     % initial state
     xinit = traj(:,1);
     % Create initial state
-    viscircles(xinit(1:2,:)', [0.1], 'color', 'b');
+%     viscircles(xinit(1:2,:)', [0.1], 'color', 'b');
+    [X_tmp,Y_tmp,Z_tmp] = sphere;
+    r = 0.2;
+    X_plot = X_tmp * r;
+    Y_plot = Y_tmp * r;
+    Z_plot = Z_tmp * r;
+    surf(X_plot + params.xinit(1), Y_plot + params.xinit(2), Z_plot + params.xinit(3));
+    text(params.xinit(1),params.xinit(2) - 3,'Start','FontSize',16)
+
 %     plot(traj(1, :), traj(2, :), 'color', 'b', 'LineWidth', 2);
     plot3(traj(1, :), traj(2, :), traj(3, :), 'color', 'b', 'LineWidth', 2);
 end

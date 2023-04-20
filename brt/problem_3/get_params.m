@@ -7,7 +7,7 @@ function params = get_params()
     params.dt = 0.05;                   % Discretization step
     params.speed = 1;                   % Maximum speed - 1 m/s
     params.wMax = 1.1;                  % Maximum control - 1.1 rad/s
-    params.zMax = 1.2;                  % Maximum z speed control - 1.2 m/s
+    params.zMax = 2.5;                  % Maximum z speed control - 1.2 m/s
     params.xinit = [-2; -5; 3; 0; 0];   % Initial state: [X] [Y] [Z] [w] [z](dot Z)
 
     % Setup environment parameters
@@ -20,10 +20,10 @@ function params = get_params()
     % obstacle 1 params
     params.obsX1 = -9;
     params.obsY1 = -2;
-    params.obsZ1 = 0;
-    params.obslength1 = 9;    
+    params.obsZ1 = -6;
+    params.obslength1 = 18;    
     params.obswidth1 = 6;
-    params.obsheight1 = 6;
+    params.obsheight1 = 10;
 
     % obstacle 2 params
     params.obsX2 = 0;
@@ -44,7 +44,7 @@ function params = get_params()
     params.H = 10; % receeding control horizon
     
     % set controller choice: to be set by user
-    params.controller_choice = 0; % choice 0 -> nominal, 1 -> least restrictive, 2 -> qp
+    params.controller_choice = 2; % choice 0 -> nominal, 1 -> least restrictive, 2 -> qp
     
     % test case: to be set by user
     params.test_choice = 0;
