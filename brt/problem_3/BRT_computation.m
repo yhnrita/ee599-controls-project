@@ -100,7 +100,7 @@ data0 = obs1;
 
 % time
 t0 = 0;
-tMax = 0.05;
+tMax = 1;
 dt = 0.05;
 tau = t0:dt:tMax;
 

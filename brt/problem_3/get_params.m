@@ -7,8 +7,8 @@ function params = get_params()
     params.dt = 0.05;                   % Discretization step
     params.speed = 1;                   % Maximum speed - 1 m/s
     params.wMax = 1.1;                  % Maximum control - 1.1 rad/s
-    params.zMax = 2.5;                  % Maximum z speed control - 1.2 m/s
-    params.xinit = [-2; -5; 3; 0; 0];   % Initial state: [X] [Y] [Z] [w] [z](dot Z)
+    params.zMax = 1.2;                  % Maximum z speed control - 1.2 m/s
+    params.xinit = [-2; -5; 0; 0; 0];   % Initial state: [X] [Y] [Z] [w] [z](dot Z)
 
     % Setup environment parameters
     % goal params

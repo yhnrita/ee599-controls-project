@@ -54,7 +54,7 @@ while ~stopping_criteria(traj(:,end),params)        % If the current state is no
     
     traj = [traj, next_state];      % update the trajectory
     plot_env(traj,params);          % plot the env after every step
-    pause(0.05)
+    pause(0.05);
 end
 
 % plotting the controllers
