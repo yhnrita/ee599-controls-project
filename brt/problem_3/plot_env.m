@@ -44,13 +44,14 @@ fig = gcf;
 fig.Name = 'BRT in 3D';
 fig.Color = [1 1 1];
 fig.NumberTitle = 'off';
+view([-63 11]);
 
 
 %% 2D Obstacles Visualization
 % Create obstacle 1
 % PlotCuboid([5,10,15],[2,3,4]);
 rectangle('Position',[params.obsX1 params.obsY1 params.obslength1 params.obswidth1 ],...
-    'EdgeColor','r','FaceColor',[1 0 0],'Curvature',0.1);
+    'EdgeColor','g','FaceColor', 'g','Curvature',0.1);
  hold on;
 % text(params.obsX1+(params.obslength1)/2,params.obsY2+(params.obswidth1)/2,'B1','FontSize',18);
 
@@ -93,11 +94,16 @@ if ~isempty(traj)
     Y_plot = Y_tmp * r;
     Z_plot = Z_tmp * r;
     surf(X_plot + params.xinit(1), Y_plot + params.xinit(2), Z_plot + params.xinit(3));
-    text(params.xinit(1),params.xinit(2) - 3,'Start','FontSize',16)
+    %text(params.xinit(1),params.xinit(2) - 3,'Start','FontSize',16)
 
 %     plot(traj(1, :), traj(2, :), 'color', 'b', 'LineWidth', 2);
     plot3(traj(1, :), traj(2, :), traj(3, :), 'color', 'b', 'LineWidth', 2);
+    
 end
+
+
+
+
 
 axis square;
 box on
@@ -127,3 +133,12 @@ if nargin == 7
     fill3([X X X + length X + length ], [Y Y + width Y + width Y], [Z + height Z + height Z + height Z + height], color);
     fill3([X X X + length X + length ], [Y Y + width Y + width Y], [Z Z Z Z], color);
 end
+
+function orbit(deg)
+[az, el] = view;
+rotvec = 0:deg/10:deg;
+for i = 1:length(rotvec)
+    view([az+rotvec(i) el])
+    drawnow
+end
+

@@ -16,7 +16,7 @@
 %       dx = cell(length(obj.dims), 1);
 %       
 %       for i = 1:length(obj.dims)
-%         dx{i} = dynamics_cell_helper(obj, x, u, d, obj.dims, obj.dims(i));      %%%%%%%%%%%%%%%%%%%%%%%%%%
+%         dx{i} = dynamics_cell_helper(obj, x, u, d, obj.dims, obj.dims(i));
 %       end
 %     else
 %       printf("here");
@@ -62,7 +62,7 @@
 %       for i = 1:length(obj.dims)
 %         dx{i} = dynamics_cell_helper(obj, x, u, d, obj.dims, obj.dims(i));
 %       end
-%       obj.speed = obj.speed + u{1}/obj.mass;            %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Only Fx here is used to demo
+%       obj.speed = obj.speed + u{1}/obj.mass;            % Only Fx here is used to demo
 %     else
 %       % Initialize the derivative vector
 % %       dx = zeros(obj.nx, 1);
@@ -113,7 +113,7 @@ function dx = dynamics(obj, ~, x, u, d)
       dx = cell(length(obj.dims), 1);
       
       for i = 1:length(obj.dims)
-        dx{i} = dynamics_cell_helper(obj, x, u, d, obj.dims, obj.dims(i));      %%%%%%%%%%%%%%%%%%%%%%%%%%
+        dx{i} = dynamics_cell_helper(obj, x, u, d, obj.dims, obj.dims(i));
       end
     else
       printf("here");

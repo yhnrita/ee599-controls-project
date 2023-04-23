@@ -2,7 +2,7 @@ function u_qp_filtered = get_qpfilter_controller(current_state, u_nom, params)
     
     options = optimoptions('fmincon','Display','off','Algorithm','interior-point');
     % valuex queries the the value function from the precomputed brt
-    valuex = eval_u(params.g,params.data(:,:,:,:,:,end),current_state);
+    valuex = eval_u(params.g,params.data(:,:,:,:,:,end), current_state);
     
     % dvdx computes the spatial derivative of the value function at the
     % current state
@@ -37,9 +37,10 @@ function u_qp_filtered = get_qpfilter_controller(current_state, u_nom, params)
     %% 3D Car seems right
     A = [- dvdx(4), - dvdx(5)];
     
-    b =  valuex + (dvdx(1) * (params.speed * cos(current_state(4)) + optDst(1)) ...
-        + dvdx(2) * (params.speed * sin(current_state(4)) + optDst(2)) ...
-        + dvdx(3) * ( current_state(5)) );
+    b =  valuex ...
+        + dvdx(1) * (params.speed * cos(current_state(4))) ...
+        + dvdx(2) * (params.speed * sin(current_state(4))) ...
+        + dvdx(3) * ( current_state(5)) ;
 
 
 
@@ -84,12 +85,14 @@ function u_qp_filtered = get_qpfilter_controller(current_state, u_nom, params)
 
 
 
-
-%     valuex
-    if ( valuex < 1 )
-        u_qp_filtered(2) = 5;
+    %% Manual Jump Controller for Demo
+    % valuex
+    if ( valuex < 0.5 )
+        % Jump up when about to enter BRT
+        u_qp_filtered(2) = 5;       
     end
-    if ( u_qp_filtered(2) < -1 )
+    if ( u_qp_filtered(2) < -1 )    
+        % Jump down when leave BRT Region
         u_qp_filtered(2) = -5;
     end
 

@@ -16,6 +16,8 @@ disp('Pre-computing the safety controller with the BRT.........................'
 traj = [params.xinit];      % Trajectory history
 cont_traj = [];             % Control trajectory
 
+writerObj = VideoWriter('test2.avi'); %// initialize the VideoWriter object
+open(writerObj) ;
 
 while ~stopping_criteria(traj(:,end),params)        % If the current state is not within the goal state
 
@@ -55,7 +57,15 @@ while ~stopping_criteria(traj(:,end),params)        % If the current state is no
     traj = [traj, next_state];      % update the trajectory
     plot_env(traj,params);          % plot the env after every step
     pause(0.05);
+
+    %% Video Output
+    F = getframe;                  % Capture the frame
+    writeVideo(writerObj,F);        % add the frame to the movie
+
+
 end
+
+close(writerObj);
 
 % plotting the controllers
 plot_controller(params.controller_choice, cont_traj);

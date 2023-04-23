@@ -8,7 +8,8 @@ function params = get_params()
     params.speed = 1;                   % Maximum speed - 1 m/s
     params.wMax = 1.1;                  % Maximum control - 1.1 rad/s
     params.zMax = 1.2;                  % Maximum z speed control - 1.2 m/s
-    params.xinit = [-2; -5; 0; 0; 0];   % Initial state: [X] [Y] [Z] [w] [z](dot Z)
+    % Initial state: [X] [Y] [Z] [w] [z](dot Z)
+    params.xinit = [-2; -7; 0; 0; 0];   
 
     % Setup environment parameters
     % goal params
@@ -21,7 +22,7 @@ function params = get_params()
     params.obsX1 = -9;
     params.obsY1 = -2;
     params.obsZ1 = -6;
-    params.obslength1 = 18;    
+    params.obslength1 = 17;
     params.obswidth1 = 6;
     params.obsheight1 = 10;
 

@@ -43,19 +43,18 @@ function X = myMpc(H, goalX, goalY, goalZ, dt, wMax, zMax, xinit, v)
     % thetadot(1), thetadot(2), ..., thetadot(100)]
     % Total number of varaibles: 101*3 + 100 = 403 
 
-    % setup number of decision variables
+    %% setup number of decision variables
     num_state_decision = 5*(H+1);
     num_control_decision = 2*(H);
     num_decision = num_state_decision + num_control_decision;
     
-
     %% setup inital condition
     x0 = zeros(num_decision,1);
-    x0(1) = xinit(1);
-    x0( (H+1) + 1 ) = xinit(2);
-    x0( 2 * (H+1) + 1) = xinit(3);
-    x0( 5 * (H+1) + 1 ) = xinit(4);
-    x0( 5 * (H+1) + H + 1 ) = xinit(5);
+    x0(                   1 )   = xinit(1); % x
+    x0(     (H+1)       + 1 )   = xinit(2); % y
+    x0( 2 * (H+1)       + 1 )   = xinit(3); % z
+    x0( 5 * (H+1)       + 1 )   = xinit(4); % theta
+    x0( 5 * (H+1)  + H  + 1 )   = xinit(5); % z speed
     
     %% Setup control bounds
     % Lower bounds
@@ -72,5 +71,7 @@ end
 %% Setup cost function
 function f = myfun(x, H, goalX, goalY, goalZ)
     % Penalize the distance from the goal state
-    f = sum((x(1 : H+1) - goalX).^2) + sum((x(H+2 : 2*(H+1)) - goalY).^2) + sum( ( x( 2*(H+1) + 1 : 3*(H+1) ) - goalZ).^2 );
+    f =   sum( ( x(           1 :    H+1  ) - goalX).^2 ) ...
+        + sum( ( x(    H+1  + 1 : 2*(H+1) ) - goalY).^2 ) ...
+        + sum( ( x( 2*(H+1) + 1 : 3*(H+1) ) - goalZ).^2 );
 end

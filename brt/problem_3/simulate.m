@@ -21,11 +21,12 @@ function next = simulate(x, u, dist, dt, noise)
   if noise == 0
       noise = [0,0,0]';
   end
+  %% Calculate the next state
   dx = zeros(length(x),1);
-  dx(1) = cos(x(4)) + dist(1);
-  dx(2) = sin(x(4)) + dist(2);
-  dx(3) = u(2);
-  dx(4) = u(1);
-  dx(5) = u(2);
+  dx(1) = cos(x(4)) + dist(1);  % x
+  dx(2) = sin(x(4)) + dist(2);  % y
+  dx(3) = u(2);                 % z
+  dx(4) = u(1);                 % theta
+  dx(5) = u(2);                 % z speed
   next = x + dt.*(dx + [noise; 0; 0]);
 end
