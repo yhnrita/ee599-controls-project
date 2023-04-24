@@ -4,7 +4,7 @@ clc; clear;
 close all; warning off;
 
 %% Get hardware params & set package path
-[world_p, body_p, ctr_p, path] = hardware_params();
+[world_p, body_p, ctr_p, path, obst] = hardware_params();
 
 addpath(path.casadi);
 import casadi.*;
@@ -21,7 +21,7 @@ addpath('visualization\');
 %% TODO: define obstacles
 
 %% Form the mpc problem
-[mpc_v, mpc_c, mpc_p] = form_mpc_prob(world_p, body_p, ctr_p, dyn_f, path, []);
+[mpc_v, mpc_c, mpc_p] = form_mpc_prob(world_p, body_p, ctr_p, dyn_f, path, obst);
 
 [boundray_v] = add_state_boundaries(mpc_v, mpc_c, world_p, body_p, ctr_p, path);
 
