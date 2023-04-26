@@ -1,7 +1,7 @@
 %% Get all constraints in a mpc cycle
 
 % mpc variables, mpc contraints, mpc problem & solver
-function [mpc_v, mpc_c, mpc_p] = form_mpc_prob(world_p, body_p, ctr_p, dyn_f, path, obstacles)
+function [mpc_v, mpc_c, mpc_p] = form_mpc_prob(world_p, body_p, ctr_p, dyn_f, path, obst)
 
 addpath(path.casadi);
 import casadi.*;
@@ -18,19 +18,6 @@ mpc_v.fp_ref_arr = SX.sym('fp_ref_arr', body_p.fp_dim, ctr_p.N); % foot position
 % contact mat arr, which the leg touches ground, set by fpp_planner
 % only foot on ground can output a ground reaction force
 mpc_v.contact_mat_arr = SX.sym('contact_mat_arr', 4, ctr_p.N);
-
-%% TODO: Find the cost wrt obstacles
-body_pos_x = (body_p.hip_pos(1,2) + body_p.hip_pos(1,3)) / 2;
-body_pos_y = (body_p.hip_pos(2,2) + body_p.hip_pos(2,3)) / 2;
-obst_1_pos = [3.2;0.2;0];
-obst_2_pos = [6.2;-0.8;0];
-obs_r = 0.4;
-
-% obstacle penalty
-cost_obs = max(obs_r - sqrt(((body_pos_x - obst_1_pos(1))^2) + ((body_pos_y - obst_1_pos(2))^2)), 0);
-cost_obs = cost_obs + max(obs_r - sqrt(((body_pos_x - obst_2_pos(1))^2) + ((body_pos_y - obst_2_pos(2))^2)), 0);
-
-mpc_v.cost_fcn = cost_obs; % the cost function: distance from goal + penalty from obstacle
 
 %% Constraints and cost function
 N = ctr_p.N;
@@ -80,6 +67,14 @@ for k = 1:N
     % zforce range < max z force
     mpc_c.ineq_con_zforce_range(4*(k-1)+1:4*k) = f_t([3,6,9,12]) - contact_mat_t.*repmat(body_p.max_zforce,4,1);
     
+    % obst calculate
+    x_x_vec = repmat(x_t(4),obst.num,1);
+    x_y_vec = repmat(x_t(5),obst.num,1);
+    
+    rbt_r_vec = repmat(obst.rbt_r,obst.num,1);
+    mpc_c.ineq_con_obst_xy(obst.num*(k-1)+1:obst.num*k) =... 
+        -1 * (sqrt((obst.cood_x_arr - x_x_vec).^2 + (obst.cood_y_arr - x_y_vec).^2) - obst.r_arr - rbt_r_vec);
+    
     for leg_k = 1:4
         xyz_i = 3*(leg_k-1)+1:3*leg_k; % index for xyz dir
         
@@ -125,7 +120,7 @@ mpc_v.cost_fcn = mpc_v.cost_fcn + x_err_f'*diag(ctr_p.weight.QN)*x_err_f;
 
 % combine all constraints
 mpc_c.constraint_arr = [mpc_c.eq_con_init_state; mpc_c.eq_con_dynamic; mpc_c.eq_con_foot_contact_ground; mpc_c.eq_con_foot_non_slip;...
-                        mpc_c.ineq_con_foot_range; mpc_c.ineq_con_foot_friction; mpc_c.ineq_con_zforce_dir; mpc_c.ineq_con_zforce_range];
+                        mpc_c.ineq_con_foot_range; mpc_c.ineq_con_foot_friction; mpc_c.ineq_con_zforce_dir; mpc_c.ineq_con_zforce_range; mpc_c.ineq_con_obst_xy];
 
 %% Init the optimal problem, solver
 % reform, state, leg force, foot pos into one n*1 vector

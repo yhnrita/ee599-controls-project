@@ -1,4 +1,4 @@
-function [world, body, ctr, path] = hardware_params()
+function [world, body, ctr, path, obst] = hardware_params()
 %% Casadi path
 % Change to your casadi path
 path.casadi = 'tool_box\casadi-3.6.0-windows64-matlab2018b';
@@ -116,5 +116,17 @@ body.foot_convex_hull = [1 0 0 -body.foot_x_range;
                         0 0 1 -ctr.min_dump_z;
                         0 0 -1 -body.foot_z_range];
                 
+%% obst data
+obst.cood_x_arr = [2; 2.5];
+obst.cood_y_arr = [0; 0];
+obst.r_arr = [1; 1];
+
+obst.vood_x_pos = 6; % z obst, yl = inf
+obst.h = 1;
+
+obst.num = size(obst.cood_x_arr);
+obst.num = obst.num(1)
+
+obst.rbt_r = 0.5;
 
 end
