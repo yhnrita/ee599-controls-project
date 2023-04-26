@@ -60,7 +60,9 @@ function u_qp_filtered = get_qpfilter_controller(current_state, u_nom, params)
 
 
 
-    u_qp_filtered = fmincon(@(u)( 0.5*(u(1)-u_nom(1))^2 + 0.5*(u(2)-u_nom(2))^2 ), u_nom,[A],[b], [], [], [], [], [], options);
+    u_qp_filtered = fmincon(@(u) ...
+        ( 0.5*(u(1)-u_nom(1))^2 + 0.5*(u(2)-u_nom(2))^2 ), ...
+        u_nom,[A],[b], [], [], [], [], [], options);
 
 
 
@@ -91,7 +93,7 @@ function u_qp_filtered = get_qpfilter_controller(current_state, u_nom, params)
         % Jump up when about to enter BRT
         u_qp_filtered(2) = 5;       
     end
-    if ( u_qp_filtered(2) < -1 )    
+    if ( u_qp_filtered(2) < 0 )    
         % Jump down when leave BRT Region
         u_qp_filtered(2) = -5;
     end

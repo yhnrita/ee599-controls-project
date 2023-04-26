@@ -48,7 +48,7 @@ function X = myMpc(H, goalX, goalY, goalZ, dt, wMax, zMax, xinit, v)
     num_control_decision = 2*(H);
     num_decision = num_state_decision + num_control_decision;
     
-    %% setup inital condition
+    %% setup initial condition
     x0 = zeros(num_decision,1);
     x0(                   1 )   = xinit(1); % x
     x0(     (H+1)       + 1 )   = xinit(2); % y
